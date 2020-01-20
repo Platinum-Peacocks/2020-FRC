@@ -48,8 +48,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_timer.reset();
     m_timer.start();
-    speed=0.5; //speed of the robot (Going to be multiplied by robot at %100 speed)
-    debug.log("Autonomous Engaged");
+    System.out.println("Autonomous Engaged");
   }
 
   /**
@@ -58,14 +57,15 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     // Drive for 2 seconds
+    Double speed = 0.5; //speed of the robot (Going to be multiplied by robot at %100 speed)
     if (m_timer.get() < 3.0) {
-    m_robotDrive.tankDrive(1*speed, 1*speed); // drive forwards
+    m_robotDrive.tankDrive(1* speed, 1*speed); // drive forwards
     m_robotDrive.tankDrive(-1*speed, -1*speed); // drive forwards
     m_robotDrive.tankDrive(0, 1*speed); //turns ????
     m_robotDrive.tankDrive(1*speed, 0); //turns ????
     } else {
       m_robotDrive.stopMotor(); // stop robot
-      debug.log("Autonomous Stopped");
+      System.out.println("Autonomous Stopped");
     }
   }
 
@@ -74,7 +74,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
-    debug.log("Manual Control Engaged");
+    System.out.println("Manual Control Engaged");
   }
 
   /**
