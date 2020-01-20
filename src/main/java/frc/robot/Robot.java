@@ -23,8 +23,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  * directory.
  */
 public class Robot extends TimedRobot {
-  private final DifferentialDrive m_robotDrive
-      = new DifferentialDrive(new PWMVictorSPX(0), new PWMVictorSPX(1));
+  private final DifferentialDrive m_robotDrive = new DifferentialDrive(new PWMVictorSPX(0), new PWMVictorSPX(1));
   private final Joystick m_stick = new Joystick(0);
   private final Joystick x_stick = new Joystick(1);
   private final Timer m_timer = new Timer();
@@ -49,6 +48,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_timer.reset();
     m_timer.start();
+    speed=0.5; //speed of the robot (Going to be multiplied by robot at %100 speed)
+    debug.log("Autonomous Engaged");
   }
 
   /**
@@ -58,9 +59,13 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     // Drive for 2 seconds
     if (m_timer.get() < 3.0) {
-    m_robotDrive.tankDrive(0.5, 0.5); // drive forwards half speed
+    m_robotDrive.tankDrive(1*speed, 1*speed); // drive forwards
+    m_robotDrive.tankDrive(-1*speed, -1*speed); // drive forwards
+    m_robotDrive.tankDrive(0, 1*speed); //turns ????
+    m_robotDrive.tankDrive(1*speed, 0); //turns ????
     } else {
       m_robotDrive.stopMotor(); // stop robot
+      debug.log("Autonomous Stopped");
     }
   }
 
@@ -69,6 +74,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
+    debug.log("Manual Control Engaged");
   }
 
   /**
