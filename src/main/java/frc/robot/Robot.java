@@ -7,12 +7,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PWMVictorSPX;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
@@ -27,6 +22,8 @@ public class Robot extends TimedRobot {
   private final Joystick m_stick = new Joystick(0);
   private final Joystick x_stick = new Joystick(1);
   private final Timer m_timer = new Timer();
+  private final Compressor comp = new Compressor(0);
+  private final Solenoid sol1 = new Solenoid(0);
  
   //DifferentialDrive myDrive;
  
@@ -49,6 +46,10 @@ public class Robot extends TimedRobot {
     m_timer.reset();
     m_timer.start();
     System.out.println("Autonomous Engaged");
+    comp.setClosedLoopControl(true);
+    comp.enabled();
+    sol1.set(true);
+    System.out.println(comp.getCompressorCurrent());
   }
 
   /**
@@ -56,6 +57,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    /**
     // Drive for 2 seconds
     Double speed = 0.5; //speed of the robot (Going to be multiplied by robot at %100 speed)
     if (m_timer.get() < 3.0) {
@@ -67,6 +69,7 @@ public class Robot extends TimedRobot {
       m_robotDrive.stopMotor(); // stop robot
       System.out.println("Autonomous Stopped");
     }
+     */
   }
 
   /**
