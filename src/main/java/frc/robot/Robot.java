@@ -7,13 +7,18 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,7 +32,9 @@ public class Robot extends TimedRobot {
   private final Joystick m_stick = new Joystick(0);
   private final Joystick x_stick = new Joystick(1);
   private final Timer m_timer = new Timer();
- 
+  private final Compressor comp = new Compressor(1);
+  private final DoubleSolenoid sol1 = new DoubleSolenoid(1, 0,1);
+  private final XboxController cont = new XboxController(2);
   //DifferentialDrive myDrive;
  
   
@@ -38,6 +45,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    comp.clearAllPCMStickyFaults();
     
   }
 
@@ -49,14 +57,18 @@ public class Robot extends TimedRobot {
     m_timer.reset();
     m_timer.start();
     System.out.println("Autonomous Engaged");
+    comp.setClosedLoopControl(true);
+    comp.start();
+    //sol1.set(Value.kReverse);
   }
 
-  /**
+  /** 
    * This function is called periodically during autonomous.
    */
   @Override
   public void autonomousPeriodic() {
     // Drive for 2 seconds
+    /** 
     Double speed = 0.5; //speed of the robot (Going to be multiplied by robot at %100 speed)
     if (m_timer.get() < 3.0) {
     m_robotDrive.tankDrive(1* speed, 1*speed); // drive forwards
@@ -66,7 +78,7 @@ public class Robot extends TimedRobot {
     } else {
       m_robotDrive.stopMotor(); // stop robot
       System.out.println("Autonomous Stopped");
-    }
+    }*/
   }
 
   /**
@@ -74,6 +86,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
+    comp.setClosedLoopControl(true);
+    comp.start();
     System.out.println("Manual Control Engaged");
   }
 
@@ -82,12 +96,18 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    //m_robotDrive.arcadeDrive(m_stick.getY()`, m_stick.getX()); 
-    while (isOperatorControl()&& isEnabled()){
+  /*  //m_robotDrive.arcadeDrive(m_stick.getY()`, m_stick.getX()); 
+    if(isOperatorControl()&& isEnabled()){
     m_robotDrive.tankDrive((m_stick.getY()*-1), (x_stick.getY()*-1));//test
-    Timer.delay(0.01);
+    Timer.delay(0.01); 
+  }*/
+  if(cont.getAButton()) {
+        sol1.set(Value.kForward);
     }
+  else if(cont.getBButton()) {
+      sol1.set(Value.kReverse);
   }
+}
 
   /**
    * This function is called periodically during test mode.
