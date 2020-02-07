@@ -11,14 +11,11 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
-import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -33,7 +30,7 @@ public class Robot extends TimedRobot {
   private final Joystick x_stick = new Joystick(1);
   private final Timer m_timer = new Timer();
   private final Compressor comp = new Compressor(1);
-  private final DoubleSolenoid sol1 = new DoubleSolenoid(1, 0,1);
+  private final DoubleSolenoid sol1 = new DoubleSolenoid(1, 0, 1);
   private final XboxController cont = new XboxController(2);
   //DifferentialDrive myDrive;
  
@@ -46,6 +43,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     comp.clearAllPCMStickyFaults();
+    comp.setClosedLoopControl(true);
+    comp.start();
     
   }
 
