@@ -31,15 +31,24 @@ import edu.wpi.first.wpilibj.util.Color;
  * directory.
  */
 public class Robot extends TimedRobot {
+  //motors and Drive
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(new PWMVictorSPX(0), new PWMVictorSPX(1));
+ PWMVictorSPX feedMotor = new PWMVictorSPX(2);
+ 
+  //Controllers
   private final Joystick m_stick = new Joystick(0);
   private final Joystick x_stick = new Joystick(1);
+  private final XboxController cont = new XboxController(2);
+
+  //Autonomous
   private final Timer m_timer = new Timer();
+
+  //Pneumatics
   private final Compressor comp = new Compressor(1);
   private final DoubleSolenoid sol1 = new DoubleSolenoid(1, 0, 1);
-  private final XboxController cont = new XboxController(2);
+  
+  //sensors
   private final ColorSensorV3 color = new ColorSensorV3(I2C.Port.kOnboard);
-  //DifferentialDrive myDrive;
  
   
   
@@ -49,9 +58,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    comp.clearAllPCMStickyFaults();
-    comp.setClosedLoopControl(true);
-    comp.start();
+    comp.clearAllPCMStickyFaults(); //gets rid of sticky faults
+    comp.setClosedLoopControl(true); //compressor default
+    comp.start(); //starts compressor
     
   }
 
@@ -60,12 +69,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_timer.reset();
-    m_timer.start();
+    m_timer.reset(); //resets timer for autonomous
+    m_timer.start(); //starts timer for autonomous
     System.out.println("Autonomous Engaged");
-    comp.setClosedLoopControl(true);
-    comp.start();
-    //sol1.set(Value.kReverse);
+    comp.setClosedLoopControl(true); //compressor default
+    comp.start(); //starts compressor
   }
 
   /** 
@@ -93,7 +101,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     comp.setClosedLoopControl(true);
-    comp.start();
+    comp.start(); //starts compressor
     System.out.println("Manual Control Engaged");
   }
 
@@ -102,17 +110,16 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    //m_robotDrive.arcadeDrive(m_stick.getY()`, m_stick.getX()); 
   
-  //Movement Controls
-  //m_robotDrive.tankDrive((m_stick.getY()*-1), (x_stick.getY()*-1));//test
-  //Timer.delay(0.01); 
+  //Movement Controls (tank drive)
+  m_robotDrive.tankDrive((m_stick.getY()*-1), (x_stick.getY()*-1));
+  Timer.delay(0.01); 
   
   //Gamepad Solenoid Control
-  if(cont.getAButton()) {
+  if(cont.getAButtonPressed()) {
     sol1.set(Value.kForward);
     }
-  else if(cont.getBButton()) {
+  else {
     sol1.set(Value.kReverse);
   }
 
@@ -126,19 +133,19 @@ public class Robot extends TimedRobot {
   //.5, .3, .1 Red
   //.1, .5, .2 Green
   //.1, .4, .4 Blue
-  if(colorArray[0] > .3 && colorArray[0] < .4 && colorArray[1] > .5 && colorArray[1] < .6 && colorArray[2] > .1 && colorArray[2] < .2){
+  if(colorArray[0] > .3 && colorArray[0] < .4) {
     sol1.set(Value.kForward);
     System.out.println("Yellow");
   }
-  if(colorArray[0] > .5 && colorArray[0] < .6 && colorArray[1] > .3 && colorArray[1] < .4 && colorArray[2] > .1 && colorArray[2] < .2){
+  if(colorArray[0] > .5 && colorArray[0] < .6){
     sol1.set(Value.kForward);
     System.out.println("Red");
   }
-  if(colorArray[0] > .1 && colorArray[0] < .2 && colorArray[1] > .5 && colorArray[1] < .6 && colorArray[2] > .2 && colorArray[2] < .3){
+  if(colorArray[0] > .1 && colorArray[0] < .2 && colorArray[1] > .5 && colorArray[1] < .6]){
     sol1.set(Value.kReverse);
     System.out.println("Green");
   }
-  if(colorArray[0] > .1 && colorArray[0] < .2 && colorArray[1] > .4 && colorArray[1] < .5 && colorArray[2] > .4 && colorArray[2] < .5){
+  if(colorArray[0] > .1 && colorArray[0] < .2 && colorArray[1] > .4 && colorArray[1] < .5){
     sol1.set(Value.kReverse);
     System.out.println("Blue");
   }
