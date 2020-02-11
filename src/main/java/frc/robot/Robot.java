@@ -118,9 +118,11 @@ public class Robot extends TimedRobot {
   //Gamepad Solenoid Control
   if(cont.getAButtonPressed()) {
     sol1.set(Value.kForward);
+    feedMotor.set(0.5);
     }
   else {
     sol1.set(Value.kReverse);
+    feedMotor.stopMotor;
   }
 
   //Color Sensor Values
