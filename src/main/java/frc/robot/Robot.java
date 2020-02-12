@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
     m_timer.reset(); //resets timer for autonomous
     m_timer.start(); //starts timer for autonomous
     System.out.println("Autonomous Engaged");
-    comp.setClosedLoopControl(true); //compressor default
+    comp.setClosedLoopControl(true); //PCM will automaticallyturn the compressor on or off when it is below or at certain pressure
     comp.start(); //starts compressor
   }
 
@@ -81,7 +81,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    // Drive for 2 seconds
     /** 
     Double speed = 0.5; //speed of the robot (Going to be multiplied by robot at %100 speed)
     if (m_timer.get() < 3.0) {
