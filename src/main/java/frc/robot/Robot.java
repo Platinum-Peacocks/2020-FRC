@@ -102,6 +102,7 @@ public class Robot extends TimedRobot {
     comp.setClosedLoopControl(true);
     comp.start(); //starts compressor
     System.out.println("Manual Control Engaged");
+    sol1.set(Value.kReverse);
   }
 
   /**
@@ -115,13 +116,13 @@ public class Robot extends TimedRobot {
   Timer.delay(0.01); 
   
   //Gamepad Solenoid Control
-  if(cont.getAButtonPressed()) {
-    sol1.set(Value.kForward);
-    feedMotor.set(0.5);
+  if(cont.getAButton()) {
+    sol1.set(Value.kReverse);
+    feedMotor.stopMotor();
     }
   else {
-    sol1.set(Value.kReverse);
-    feedMotor.stopMotor;
+    sol1.set(Value.kForward);
+    feedMotor.set(0.5);
   }
 
   //Color Sensor Values
@@ -135,19 +136,15 @@ public class Robot extends TimedRobot {
   //.1, .5, .2 Green
   //.1, .4, .4 Blue
   if(colorArray[0] > .3 && colorArray[0] < .4) {
-    sol1.set(Value.kForward);
     System.out.println("Yellow");
   }
   if(colorArray[0] > .5 && colorArray[0] < .6){
-    sol1.set(Value.kForward);
     System.out.println("Red");
   }
-  if(colorArray[0] > .1 && colorArray[0] < .2 && colorArray[1] > .5 && colorArray[1] < .6]){
-    sol1.set(Value.kReverse);
+  if(colorArray[0] > .1 && colorArray[0] < .2 && colorArray[1] > .5 && colorArray[1] < .6){
     System.out.println("Green");
   }
   if(colorArray[0] > .1 && colorArray[0] < .2 && colorArray[1] > .4 && colorArray[1] < .5){
-    sol1.set(Value.kReverse);
     System.out.println("Blue");
   }
 } 
