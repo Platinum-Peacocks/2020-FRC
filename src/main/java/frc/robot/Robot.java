@@ -33,7 +33,8 @@ import edu.wpi.first.wpilibj.util.Color;
 public class Robot extends TimedRobot {
   //motors and Drive
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(new PWMVictorSPX(0), new PWMVictorSPX(1));
- PWMVictorSPX feedMotor = new PWMVictorSPX(2);
+ PWMVictorSPX intakeMotor = new PWMVictorSPX(2);
+ PWMVictorSPX feedMotor = new PWMVictorSPX(3);
  
   //Controllers
   private final Joystick m_stick = new Joystick(0);
@@ -45,7 +46,8 @@ public class Robot extends TimedRobot {
 
   //Pneumatics
   private final Compressor comp = new Compressor(1);
-  private final DoubleSolenoid sol1 = new DoubleSolenoid(1, 0, 1);
+  private final DoubleSolenoid intakeSol = new DoubleSolenoid(1, 0, 1);
+  private final DoubleSolenoid feederSol = new DoubleSolenoid(1, 2, 3);
   
   //sensors
   private final ColorSensorV3 color = new ColorSensorV3(I2C.Port.kOnboard);
@@ -76,8 +78,8 @@ public class Robot extends TimedRobot {
     comp.start(); //starts compressor
   }
 
-  /** 
-   * This function is called periodically during autonomous.
+  /* 
+   This function is called periodically during autonomous.
    */
   @Override
   public void autonomousPeriodic() {
@@ -102,7 +104,6 @@ public class Robot extends TimedRobot {
     comp.setClosedLoopControl(true);
     comp.start(); //starts compressor
     System.out.println("Manual Control Engaged");
-    sol1.set(Value.kReverse);
   }
 
   /**
@@ -116,13 +117,16 @@ public class Robot extends TimedRobot {
   Timer.delay(0.01); 
   
   //Gamepad Solenoid Control
-  if(cont.getAButton()) {
-    sol1.set(Value.kReverse);
-    feedMotor.stopMotor();
+  if(cont.getAButtonPressed()) {
+    intakeSol.set(Value.kForward);
+    feederSol.set(Value.kForward);
+    intakeMotor.set(0.5);
+
     }
   else {
-    sol1.set(Value.kForward);
-    feedMotor.set(0.5);
+    intakeSol.set(Value.kReverse);
+    feederSol.set(Value.kReverse);
+    intakeMotor.stopMotor();
   }
 
   //Color Sensor Values
@@ -136,15 +140,19 @@ public class Robot extends TimedRobot {
   //.1, .5, .2 Green
   //.1, .4, .4 Blue
   if(colorArray[0] > .3 && colorArray[0] < .4) {
+    intakeSol.set(Value.kForward);
     System.out.println("Yellow");
   }
   if(colorArray[0] > .5 && colorArray[0] < .6){
+    intakeSol.set(Value.kForward);
     System.out.println("Red");
   }
   if(colorArray[0] > .1 && colorArray[0] < .2 && colorArray[1] > .5 && colorArray[1] < .6){
+    intakeSol.set(Value.kReverse);
     System.out.println("Green");
   }
   if(colorArray[0] > .1 && colorArray[0] < .2 && colorArray[1] > .4 && colorArray[1] < .5){
+    intakeSol.set(Value.kReverse);
     System.out.println("Blue");
   }
 } 
