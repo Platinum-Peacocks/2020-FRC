@@ -121,9 +121,9 @@ public class Robot extends TimedRobot {
   
   //Gamepad Solenoid Control
   if(cont.getAButton()) {
-    feederSol.set(Value.kForward);
-    intakeMotor.set(0.5);
-    feedMotor.set(0.5);
+    feederSol.set(Value.kForward); //piston for ramp
+    intakeMotor.set(0.5); //little motor on intake (Mobius wheels)
+    feedMotor.set(0.5); //big belt to score
 
     }
   else {
@@ -131,28 +131,28 @@ public class Robot extends TimedRobot {
     intakeMotor.stopMotor();
 
     if(cont.getBButton()) {
-      feedMotor.set(0.5);
+      feedMotor.set(0.5); //Belt to score balls
     }
     else {
       feedMotor.stopMotor();
     }
   }
   if(cont.getXButton()) {
-    intakeSol.set(Value.kForward); 
+    intakeSol.set(Value.kForward); //intake system deployed piston
   }
   else {
     intakeSol.set(Value.kReverse);
   }
 
   if(cont.getBumper(Hand.kLeft)) {
-    climbMotor.set(-0.5);
+    climbMotor.set(-0.5); //run motor to climb
   }
   else {
     climbMotor.stopMotor();
   }
 
   if(cont.getYButton()) {
-    climbSol.set(Value.kForward);
+    climbSol.set(Value.kForward); //climb pole release
   }
   else {
     climbSol.set(Value.kReverse);
