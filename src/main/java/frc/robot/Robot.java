@@ -48,6 +48,7 @@ public class Robot extends TimedRobot {
   private final Compressor comp = new Compressor(1);
   private final DoubleSolenoid intakeSol = new DoubleSolenoid(1, 0, 1);
   private final DoubleSolenoid feederSol = new DoubleSolenoid(1, 2, 3);
+  private final DoubleSolenoid climbSol = new DoubleSolenoid(1, 4, 5);
   
   //sensors
   private final ColorSensorV3 color = new ColorSensorV3(I2C.Port.kOnboard);
@@ -121,12 +122,21 @@ public class Robot extends TimedRobot {
     intakeSol.set(Value.kForward);
     feederSol.set(Value.kForward);
     intakeMotor.set(0.5);
+    feedMotor.set(0.5);
 
     }
   else {
     intakeSol.set(Value.kReverse);
     feederSol.set(Value.kReverse);
     intakeMotor.stopMotor();
+    feedMotor.stopMotor();
+  }
+
+  if(cont.getBButtonPressed()) {
+    feedMotor.set(0.5);
+  }
+  else {
+    feedMotor.stopMotor();
   }
 
   //Color Sensor Values
