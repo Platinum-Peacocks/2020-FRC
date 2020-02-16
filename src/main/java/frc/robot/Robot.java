@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C;
@@ -35,6 +36,7 @@ public class Robot extends TimedRobot {
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(new PWMVictorSPX(0), new PWMVictorSPX(1));
  PWMVictorSPX intakeMotor = new PWMVictorSPX(2);
  PWMVictorSPX feedMotor = new PWMVictorSPX(3);
+ PWMVictorSPX climbMotor = new PWMVictorSPX(4);
  
   //Controllers
   private final Joystick m_stick = new Joystick(0);
@@ -118,27 +120,44 @@ public class Robot extends TimedRobot {
   Timer.delay(0.01); 
   
   //Gamepad Solenoid Control
-  if(cont.getAButtonPressed()) {
-    intakeSol.set(Value.kForward);
+  if(cont.getAButton()) {
     feederSol.set(Value.kForward);
     intakeMotor.set(0.5);
     feedMotor.set(0.5);
 
     }
   else {
-    intakeSol.set(Value.kReverse);
     feederSol.set(Value.kReverse);
     intakeMotor.stopMotor();
-    feedMotor.stopMotor();
-  }
 
-  if(cont.getBButtonPressed()) {
-    feedMotor.set(0.5);
+    if(cont.getBButton()) {
+      feedMotor.set(0.5);
+    }
+    else {
+      feedMotor.stopMotor();
+    }
+  }
+  if(cont.getXButton()) {
+    intakeSol.set(Value.kForward); 
   }
   else {
-    feedMotor.stopMotor();
+    intakeSol.set(Value.kReverse);
   }
 
+  if(cont.getBumper(Hand.kLeft)) {
+    climbMotor.set(-0.5);
+  }
+  else {
+    climbMotor.stopMotor();
+  }
+
+  if(cont.getYButton()) {
+    climbSol.set(Value.kForward);
+  }
+  else {
+    climbSol.set(Value.kReverse);
+  }
+  /*
   //Color Sensor Values
   Color detectedColor = color.getColor();
   double IR = color.getIR();
@@ -165,6 +184,7 @@ public class Robot extends TimedRobot {
     intakeSol.set(Value.kReverse);
     System.out.println("Blue");
   }
+  */
 } 
   /**
    * This function is called periodically during test mode.
