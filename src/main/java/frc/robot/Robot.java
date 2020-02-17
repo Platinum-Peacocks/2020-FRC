@@ -122,8 +122,8 @@ public class Robot extends TimedRobot {
   //Gamepad Solenoid Control
   if(cont.getAButton()) {
     feederSol.set(Value.kForward); //piston for ramp
-    intakeMotor.set(0.5); //little motor on intake (Mobius wheels)
-    feedMotor.set(0.5); //big belt to score
+    intakeMotor.set(0.5); //motor for intake to spin (Mobius wheels)
+    feedMotor.set(0.5); //big top belt to hold balls
 
     }
   else {
@@ -138,7 +138,7 @@ public class Robot extends TimedRobot {
     }
   }
   if(cont.getXButton()) {
-    intakeSol.set(Value.kForward); //intake system deployed piston
+    intakeSol.set(Value.kForward); //intake system deployed piston/front arm with wheels
   }
   else {
     intakeSol.set(Value.kReverse);
@@ -157,7 +157,7 @@ public class Robot extends TimedRobot {
   else {
     climbSol.set(Value.kReverse);
   }
-  /*
+  
   //Color Sensor Values
   Color detectedColor = color.getColor();
   double IR = color.getIR();
@@ -169,22 +169,18 @@ public class Robot extends TimedRobot {
   //.1, .5, .2 Green
   //.1, .4, .4 Blue
   if(colorArray[0] > .3 && colorArray[0] < .4) {
-    intakeSol.set(Value.kForward);
     System.out.println("Yellow");
   }
   if(colorArray[0] > .5 && colorArray[0] < .6){
-    intakeSol.set(Value.kForward);
     System.out.println("Red");
   }
   if(colorArray[0] > .1 && colorArray[0] < .2 && colorArray[1] > .5 && colorArray[1] < .6){
-    intakeSol.set(Value.kReverse);
     System.out.println("Green");
   }
   if(colorArray[0] > .1 && colorArray[0] < .2 && colorArray[1] > .4 && colorArray[1] < .5){
-    intakeSol.set(Value.kReverse);
     System.out.println("Blue");
   }
-  */
+  
 } 
   /**
    * This function is called periodically during test mode.
