@@ -174,9 +174,11 @@ public class Robot extends TimedRobot {
   boolean alreadyExecutedG = false;
   boolean alreadyExecutedB = false;
 
+  boolean colorMotorB = false;
+
   int yellowN = 0;
   int redN = 0;
-  int greenN = 0
+  int greenN = 0;
   int blueN = 0;
   
   if(Yellow == true && alreadyExecutedY == false){
@@ -209,13 +211,13 @@ public class Robot extends TimedRobot {
   }
 
   int fullRotate = 0; //amount of rotations made in real time
-  int targetColor = yellow; // color you want to stop on
+  int targetColor = yellowN; // color you want to stop on
   int targetRotate = 2; //two equals one full rotation because colors are on wheel twice
 
   if(yellowN == targetRotate && redN == targetRotate && greenN == targetRotate && blueN == targetRotate){
     fullRotate = 1;
   }
-  if(fullRotate == targetRotate && targetColor == targetRotate + 1;){
+  if(fullRotate == targetRotate && targetColor == targetRotate + 1){
     //stop the motor
     colorMotorB = true;
   }
