@@ -233,8 +233,13 @@ public class Robot extends TimedRobot {
     colorMotor.set(0.5);
     //have to hold
   }else{
+    if(cont.getStartButton()){
+     //manual color motor controls
+      colorMotor.set(0.5);
+    }else{
     //stop color motor
     colorMotor.stopMotor();
+    }
   }
   //END OF TESTING
 
