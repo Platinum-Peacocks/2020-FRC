@@ -187,6 +187,7 @@ public class Robot extends TimedRobot {
     alreadyExecutedG = false;
     alreadyExecutedB = false;
     yellowN = yellowN + 1;
+    System.out.println(yellowN);
 
   } else if(Red == true && alreadyExecutedR == false){
     alreadyExecutedY = false;
@@ -194,6 +195,7 @@ public class Robot extends TimedRobot {
     alreadyExecutedG = false;
     alreadyExecutedB = false;
     redN = redN + 1;
+    System.out.println(redN);
 
   }else if(Green == true && alreadyExecutedG == false){
     alreadyExecutedY = false;
@@ -201,6 +203,7 @@ public class Robot extends TimedRobot {
     alreadyExecutedG = true;
     alreadyExecutedB = false;
     greenN = greenN + 1;
+    System.out.println(greenN);
 
   }else if(Blue == true && alreadyExecutedB == false){
     alreadyExecutedY = false;
@@ -208,9 +211,12 @@ public class Robot extends TimedRobot {
     alreadyExecutedG = false;
     alreadyExecutedB = true;
     blueN = blueN + 1;
+    System.out.println(blueN);
   }
 
   int fullRotate = 0; //amount of rotations made in real time
+
+  //editable variables
   int targetColor = yellowN; // color you want to stop on
   int targetRotate = 2; //two equals one full rotation because colors are on wheel twice
 
