@@ -37,6 +37,7 @@ public class Robot extends TimedRobot {
  PWMVictorSPX intakeMotor = new PWMVictorSPX(2);
  PWMVictorSPX feedMotor = new PWMVictorSPX(3);
  PWMVictorSPX climbMotor = new PWMVictorSPX(4);
+ PWMVictorSPX colorMotor = new PWMVictorSPX(5);
  
   //Controllers
   private final Joystick m_stick = new Joystick(0);
@@ -229,9 +230,11 @@ public class Robot extends TimedRobot {
   }
   if(cont.getBumper(Hand.kRight) && colorMotorB == false){
     //run the colormotor
+    colorMotor.set(0.5);
     //have to hold
   }else{
     //stop color motor
+    colorMotor.stopMotor();
   }
   //END OF TESTING
 
