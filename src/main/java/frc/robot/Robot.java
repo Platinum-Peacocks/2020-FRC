@@ -106,7 +106,11 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     comp.setClosedLoopControl(true);
     comp.start(); //starts compressor
+    climbSol.set(Value.kReverse);
+    feederSol.set(Value.kForward);
+    intakeSol.set(Value.kReverse);
     System.out.println("Manual Control Engaged");
+    
   }
 
   /**
@@ -119,48 +123,68 @@ public class Robot extends TimedRobot {
   m_robotDrive.tankDrive((m_stick.getY()*-1), (x_stick.getY()*-1));
   Timer.delay(0.01); 
   
-  //Gamepad Solenoid Control
-  if(cont.getAButton()) {
-    feederSol.set(Value.kForward); //piston for ramp
-    intakeMotor.set(0.5); //motor for intake to spin (Mobius wheels)
-    feedMotor.set(0.5); //big top belt to hold balls
-
-    }
-  else {
-    feederSol.set(Value.kReverse);
-    intakeMotor.stopMotor();
-
-    if(cont.getBButton()) {
-      feedMotor.set(0.5); //Belt to score balls
-    }
-    else {
-      feedMotor.stopMotor();
-    }
-  }
-  if(cont.getXButton()) {
-    intakeSol.set(Value.kForward); //intake system deployed piston/front arm with wheels
-  }
-  else {
+  //Gamepad Controls
+ 
+   
+  /*else if(cont.getBumper(Hand.kLeft)) {//LB
     intakeSol.set(Value.kReverse);
+  }*/
+ 
+
+  /*if(cont.getYButton()) {//Y
+    intakeMotor.set(-1.0);
+  }*/
+ 
+   if(cont.getBButton()) {//B
+    feedMotor.set(1.0);
+    feederSol.set(Value.kReverse);
+  }
+  else if(cont.getTriggerAxis(Hand.kLeft) > .1) {//LT
+    feedMotor.set(-1.0);
   }
 
-  if(cont.getBumper(Hand.kLeft)) {
-    climbMotor.set(-0.5); //run motor to climb
-  }
-  else {
-    climbMotor.stopMotor();
-  }
-
-  if(cont.getYButton()) {
-    climbSol.set(Value.kForward); //climb pole release
-  }
-  else {
+  else if(cont.getY(Hand.kLeft) > .6) {
     climbSol.set(Value.kReverse);
   }
   
+  else if(cont.getY(Hand.kLeft) < -.2) {
+    climbSol.set(Value.kForward);
+  }
+  
+  else if(cont.getStickButton(Hand.kRight)) {//right stick
+    climbMotor.set(1.0);
+  }
+  else {
+   
+    feederSol.set(Value.kForward);
+    climbMotor.stopMotor();
+
+    if(cont.getXButton()) { 
+      intakeSol.set(Value.kForward);
+     /* feederSol.set(Value.kForward);*/
+      //feedMotor.set(1.0);
+      //intakeMotor.set(1.0);
+    }
+    else if (!cont.getXButton()) {
+      intakeSol.set(Value.kReverse);
+    }
+    if(cont.getBumper(Hand.kRight)) {//RB
+    feedMotor.set(1.0);
+    intakeMotor.set(1.0);
+    }
+    else if (cont.getBumper(Hand.kLeft)) {//LB
+      intakeMotor.set(-1.0);
+    }else{
+    intakeMotor.stopMotor();
+    feedMotor.stopMotor();
+    }
+  }
+  
+
+  
   //Color Sensor Values
   Color detectedColor = color.getColor();
-  double IR = color.getIR();
+  //double IR = color.getIR();
   double[] colorArray = {detectedColor.red, detectedColor.green, detectedColor.blue};
 
   //color sensor operations (IN TESTING!!!!)
@@ -269,12 +293,5 @@ public class Robot extends TimedRobot {
     Blue = true;
   }
   
-} 
-  /**
-   * This function is called periodically during test mode.
-   */
-  @Override
-  public void testPeriodic() {
-    
   }
 }
