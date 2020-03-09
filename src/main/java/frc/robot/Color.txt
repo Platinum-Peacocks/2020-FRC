@@ -1,0 +1,124 @@
+
+  //Color Sensor Values
+  Color detectedColor = color.getColor();
+  //double IR = color.getIR();
+  double[] colorArray = {detectedColor.red, detectedColor.green, detectedColor.blue};
+
+  //color sensor operations (IN TESTING!!!!)
+  boolean Yellow = false;
+  boolean Red = false;
+  boolean Green = false;
+  boolean Blue = false;
+
+  boolean alreadyExecutedY = false;
+  boolean alreadyExecutedR = false;
+  boolean alreadyExecutedG = false;
+  boolean alreadyExecutedB = false;
+
+  boolean colorMotorB = false;
+
+  int yellowN = 0;
+  int redN = 0;
+  int greenN = 0;
+  int blueN = 0;
+  
+  if(Yellow == true && alreadyExecutedY == false){
+    alreadyExecutedY = true;
+    alreadyExecutedR = false;
+    alreadyExecutedG = false;
+    alreadyExecutedB = false;
+    yellowN = yellowN + 1;
+    System.out.println(yellowN);
+
+  } else if(Red == true && alreadyExecutedR == false){
+    alreadyExecutedY = false;
+    alreadyExecutedR = true;
+    alreadyExecutedG = false;
+    alreadyExecutedB = false;
+    redN = redN + 1;
+    System.out.println(redN);
+
+  }else if(Green == true && alreadyExecutedG == false){
+    alreadyExecutedY = false;
+    alreadyExecutedR = false;
+    alreadyExecutedG = true;
+    alreadyExecutedB = false;
+    greenN = greenN + 1;
+    System.out.println(greenN);
+
+  }else if(Blue == true && alreadyExecutedB == false){
+    alreadyExecutedY = false;
+    alreadyExecutedR = false;
+    alreadyExecutedG = false;
+    alreadyExecutedB = true;
+    blueN = blueN + 1;
+    System.out.println(blueN);
+  }
+
+  int fullRotate = 0; //amount of rotations made in real time
+
+  //editable variables
+  int targetColor = yellowN; // color you want to stop on
+  int targetRotate = 2; //two equals one full rotation because colors are on wheel twice
+
+  if(yellowN == targetRotate && redN == targetRotate && greenN == targetRotate && blueN == targetRotate){
+    fullRotate = 1;
+  }
+  if(fullRotate == targetRotate && targetColor == targetRotate + 1){
+    //stop the motor
+    colorMotorB = true;
+  }
+  if(cont.getBumper(Hand.kRight) && colorMotorB == false){
+    //run the colormotor
+    colorMotor.set(0.5);
+    //have to hold
+  }else{
+    if(cont.getStartButton()){
+     //manual color motor controls
+      colorMotor.set(0.5);
+    }else{
+    //stop color motor
+    colorMotor.stopMotor();
+    }
+  }
+  //END OF TESTING
+
+
+  //sensor system
+  System.out.println(colorArray[0] + "    " + colorArray[1] + "    " + colorArray[2]);
+  //.3, .5, .1 Yellow
+  //.5, .3, .1 Red
+  //.1, .5, .2 Green
+  //.1, .4, .4 Blue
+  if(colorArray[0] > .3 && colorArray[0] < .4) {
+    System.out.println("Yellow");
+
+    Yellow = true;
+    Red = false;
+    Green = false;
+    Blue = false;
+  }
+  if(colorArray[0] > .5 && colorArray[0] < .6){
+    System.out.println("Red");
+
+    Yellow = false;
+    Red = true;
+    Green = false;
+    Blue = false;
+  }
+  if(colorArray[0] > .1 && colorArray[0] < .2 && colorArray[1] > .5 && colorArray[1] < .6){
+    System.out.println("Green");
+
+    Yellow = false;
+    Red = false;
+    Green = true;
+    Blue = false;
+  }
+  if(colorArray[0] > .1 && colorArray[0] < .2 && colorArray[1] > .4 && colorArray[1] < .5){
+    System.out.println("Blue");
+
+    Yellow = false;
+    Red = false;
+    Green = false;
+    Blue = true;
+  }
